@@ -14,6 +14,8 @@ Smart campus : https://smartcampus.fi/oulu/
 
 Smart campus sensor map : https://smartcampus.oulu.fi/manage/map
 
+Smart campus API page : https://smartcampus.oulu.fi/manage/
+
 <br />
 
 ## Conda virtual enviroment 
