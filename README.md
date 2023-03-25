@@ -63,3 +63,10 @@ Provide a clear and concise description of your changes in the pull request.
 Include relevant documentation and tests with your code changes.
 
 By following these best practices, we can maintain a high-quality codebase that is easy to understand, maintain, and contribute to. Thank you for your contributions!
+
+<br />
+<br />
+
+# Sensor locations map
+
+![Part of the university map with sensor locations, example](img/map.PNG)
