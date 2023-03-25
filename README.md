@@ -18,7 +18,7 @@ Smart campus API page : https://smartcampus.oulu.fi/manage/
 
 <br />
 
-## Conda virtual enviroment 
+# Conda virtual enviroment 
 
 To install libraries using Conda, follow these steps:
 
@@ -35,6 +35,10 @@ To install libraries using Conda, follow these steps:
 6. When you are finished working with your environment, you can deactivate it using the command 'conda deactivate'.
 
 Note: Conda can also be used to install libraries from non-default channels or to install specific versions of libraries. You can refer to the Conda documentation for more information on these advanced options.
+
+## OR install from requirements.txt
+
+Set up conda enviroment and install requirements with command 'conda install -r requirements.txt'
 
 
 # Good practices
