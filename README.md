@@ -40,30 +40,6 @@ Note: Conda can also be used to install libraries from non-default channels or t
 
 Set up conda enviroment and install requirements with command 'conda install -r requirements.txt'
 
-
-# Good practices
-
-## Code Formatting
-Follow PEP 8 guidelines for code formatting. This includes naming conventions, code structure, and documentation.
-Use an automated tool like 'black' or 'autopep8' to format your code before submitting a pull request.
-
-## Documentation
-Use docstrings to document classes, functions, and modules.
-Write clear and concise comments to explain complex code logic.
-Provide examples in documentation to help users understand how to use your code.
-
-## Testing
-Write unit tests to ensure that your code is working as expected.
-Use a testing framework such as 'pytest' or 'unittest'.
-Ensure that your tests cover edge cases and handle unexpected inputs.
-
-## Pull Requests
-Create a separate branch for your changes and make sure it is up to date with the main branch before submitting a pull request.
-Provide a clear and concise description of your changes in the pull request.
-Include relevant documentation and tests with your code changes.
-
-By following these best practices, we can maintain a high-quality codebase that is easy to understand, maintain, and contribute to. Thank you for your contributions!
-
 <br />
 <br />
 
