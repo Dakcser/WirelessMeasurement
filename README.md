@@ -49,3 +49,7 @@ Set up conda enviroment and install requirements with command 'conda install -r 
 # Sensor locations map
 
 ![Part of the university map with sensor locations, example](img/map.PNG)
+
+# Motion heat map based on sensors
+
+![Motion map](img/heatmap.png)
