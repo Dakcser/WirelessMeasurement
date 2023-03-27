@@ -14,7 +14,7 @@ Smart campus : https://smartcampus.fi/oulu/
 
 Smart campus sensor map : https://smartcampus.oulu.fi/manage/map (old map)
 
-Smart campus API page : ~~~https://smartcampus.oulu.fi/manage/~~, https://query-webapp.rahtiapp.fi/#/
+Smart campus API page : ~~https://smartcampus.oulu.fi/manage/~~, https://query-webapp.rahtiapp.fi/#/
 
 HOX! SmartCampus Query API has moved foward from public v0.1.0 to v0.4.0 which is hosted in rahtiapp.fi now days.
  
