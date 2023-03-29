@@ -46,6 +46,13 @@ Set up conda enviroment and install requirements with command 'conda install -r 
 <br />
 <br />
 
+# Run application
+Run application with command
+
+```console
+$ C:\WirelessMeasurement> python application.py
+```
+
 # Sensor locations map
 
 ![Part of the university map with sensor locations, example](img/map.PNG)
