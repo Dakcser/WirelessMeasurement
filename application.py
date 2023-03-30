@@ -10,6 +10,7 @@ import seaborn as sns
 import time
 from folium import plugins
 from folium.plugins import HeatMap
+from folium.plugins import HeatMapWithTime
 import folium 
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -42,9 +43,26 @@ class Folium_Map(QWidget):
         
         
 
-        # Plot data on the map
-        heatmap = get_data()
-        HeatMap(heatmap).add_to(folium.FeatureGroup(name='Heat Map').add_to(m))
+        # get data
+        df = get_data()
+        # Min-Max normalize
+        column = "motion"
+        df[column] = (df[column] - df[column].min()) / (df[column].max() - df[column].min())
+        
+        motion_data = df[["coordinates", "motion", "time"]]
+        data = []
+        timestamps = []
+
+        for _, row in motion_data.iterrows():
+            #check for nan in data
+            if np.isnan(row['motion']):
+                continue
+                
+            data.append([row['coordinates'][0],row['coordinates'][1],row['motion']])
+            timestamps.append(row['time'])
+        
+        #HeatMap(data[:500]).add_to(folium.FeatureGroup(name='Heat Map').add_to(m))
+        HeatMapWithTime(data[:500]).add_to(m)
         folium.LayerControl().add_to(m)
 
         # save map data to data object

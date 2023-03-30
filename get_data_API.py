@@ -11,61 +11,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import time
-from folium import plugins
-from folium.plugins import HeatMap
 
-def get_data():
 
-    #smart campus api key
-    headers = {
-        'Content-type': 'application/json', 
-        'Authorization': f'{apikey.APIKEY}',
-    }
-
-    # Set the API endpoint and request all devices
-    url = 'https://query-api.rahtiapp.fi/events'
+def get_sensor_locations():
     
-
-    # Send the API request
-    response = requests.get(url, headers=headers)
-
-    # Check the response status code
-    if response.status_code == 200:
-        # Print the sensor data
-        sensor_data = response.iter_lines()
-        print(sensor_data)
-    else:
-        print("Error: API request failed with status code", response.status_code)
-        
-    devices = []
-    devicesInFloorOne = []
-
-    #loop through all devices API gave
-        
-    for line in response.iter_lines(decode_unicode=True):
-        #print(line)
-        devices.append(json.loads(line))
-
-    device_id_list = [device["deveui"] for device in devices[0]]
-
-    ## Remove duplicates
-    device_id_list = list(dict.fromkeys(device_id_list))
-    print("Amount of unique devices: ", len(device_id_list))
-
-
-    # API with sensor values uses IDs with lower cases and dashes,
-    # while the API with location data uses them with upper cases and without dashes
-
-    # Form a dictionary for ID mapping
-    idDict = {}
-    for id in device_id_list:
-        tempId = id.replace("-", '').upper()
-        idDict[id] = tempId
-
-    print(device_id_list[0])
-    print(idDict[device_id_list[0]])
-
+        # ------ Old API ------------
     # Set the API endpoint and request all devices
     url = 'https://smartcampus.oulu.fi/manage/api/devices/listAll'
     old_sensor_data = []
@@ -78,30 +28,71 @@ def get_data():
         print("200")
     else:
         print("Error: API request failed with status code", response.status_code)
-        
+
     for line in response.iter_lines(decode_unicode=True):
         old_sensor_data.append(json.loads(line))
+        
+    #Dictionary with key and coordinates
+    sensor_list = {}
+    for sensor in old_sensor_data[0]:
 
-    old_sensor_locations = []
-    for line in old_sensor_data[0]:
-        print(line)
-        try:
-            old_sensor_locations.append((line["deviceId"], line['location']['coordinates']))
-        except TypeError:
+        #Check for Nones in data
+        if sensor['location'] == None:
             continue
 
-    get_id = []
-    for device in devices[0]:
-        if device['motion'] != None:
-            get_id.append(device)
+        #without hyphens; ex. A81758FFFE046433
+        old_id = sensor['deviceId']
+        #with hyphens; ex. A8-17-58-FF-FE-04-64-33
+        new_id = '-'.join(old_id[i:i+2] for i in range(0, len(old_id), 2))
 
-    heatmap = []
+        #Create dictionary {key new_id : value coordinates}
+        sensor_list[new_id] = sensor['location']['coordinates']
+        
+    return sensor_list
 
-    for motion in get_id:
-        for sensor in old_sensor_locations:
-            if sensor[0] == idDict[motion['deveui']]:
-                #print("Found")
-                heatmap.append([sensor[1][0], sensor[1][1], motion['motion']])
-                break
+def get_data():
+    
+    sensor_list = get_sensor_locations()
+    
+    #smart campus api key
+    headers = {
+        'Content-type': 'application/json', 
+        'Authorization': f'{apikey.APIKEY}',
+    }
+    
+    # Set the API endpoint and request 15000 datapoints
+    url = 'https://query-api.rahtiapp.fi/events?limit=15000'
 
-    return heatmap
+    # Send the API request
+    response = requests.get(url, headers=headers)
+
+    # Check the response status code
+    if response.status_code == 200:
+        # Print the sensor data
+        sensor_data = response.iter_lines()
+    else:
+        print("Error: API request failed with status code", response.status_code)
+        
+    #Create list out of response
+    resp = []
+    for line in response.iter_lines(decode_unicode=True):
+        resp.append(json.loads(line))
+    
+    #Create dataframe
+    df = pd.DataFrame(columns=['ID','time','temperature','humidity','light','motion','co2', 'coordinates'])
+    
+    #iterate trough response list
+    for measurement in resp[0]:
+
+        #add row to dataframe
+        df.loc[len(df.index)]=[measurement['deveui'],       #id
+                               measurement['time'],         #timestamp
+                               measurement['temperature'],  #temperature
+                               measurement['humidity'],     #humidity
+                               measurement['light'],        #illuminance
+                               measurement['motion'],       #motion
+                               measurement['co2'],          #CO2
+                               sensor_list[measurement['deveui'].upper()] #coordinates[lat, lng]
+                              ]
+
+    return df
