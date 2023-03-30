@@ -86,6 +86,8 @@ pycparser=2.21=pyhd3eb1b0_0
 pygments=2.14.0=pypi_0
 pyopenssl=23.0.0=py311haa95532_0
 pyparsing=3.0.9=pypi_0
+pyqtwebengine=5.15.6=pypi_0
+pyqtwebengine-qt5=5.15.2=pypi_0
 pyrsistent=0.19.3=pypi_0
 pysocks=1.7.1=py311haa95532_0
 python=3.11.0=h966fe2a_3

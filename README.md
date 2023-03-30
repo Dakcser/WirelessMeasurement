@@ -16,7 +16,7 @@ Smart campus sensor map : https://smartcampus.oulu.fi/manage/map (old map)
 
 Smart campus API page : ~~https://smartcampus.oulu.fi/manage/~~, https://query-webapp.rahtiapp.fi/#/
 
-HOX! SmartCampus Query API has moved foward from public v0.1.0 to v0.4.0 which is hosted in rahtiapp.fi now days.
+HOX! SmartCampus Query API has moved forward from public v0.1.0 to v0.4.0 which is hosted in rahtiapp.fi now days.
  
 
 <br />
@@ -27,7 +27,7 @@ To install libraries using Conda, follow these steps:
 
 1. Open your terminal or Anaconda Prompt.
 
-2. Activate your Conda environment using the command conda activate your_env_name. If you don't have an environment set up, you can create one using the command 'conda create --name your_env_name'.
+2. Activate your Conda environment using the command conda activate your_env_name. If you don't have an environment set up, you can create one and install the required packages by using command 'conda create --name your_env_name --file requirements.txt'.
 
 3. Use the 'conda install' command to install the desired library. For example, to install NumPy, use the command conda install numpy.
 
