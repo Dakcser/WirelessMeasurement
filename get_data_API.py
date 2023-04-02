@@ -11,6 +11,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import datetime
+import math
+
 
 
 def get_sensor_locations():
@@ -96,3 +99,37 @@ def get_data():
                               ]
 
     return df
+
+def data_formating(df, data_shown):
+    
+    print(f"Formating data for {data_shown} map")
+    selected_data = df[["coordinates", data_shown, "time"]]
+    
+    #Convert ISO-8601 time format to pandas DateTime format 
+    selected_data.time = pd.to_datetime(selected_data.time, format="%Y-%m-%dT%H:%M:%S.%fZ")
+    
+    #Add new column 'period' to dataframe, every row gets group number based on 15min clusters
+    new = selected_data.groupby(pd.Grouper(key='time', freq='15Min'),as_index=False).apply(lambda x: x['time'])
+    selected_data['period'] = new.index.get_level_values(0)
+    
+    #create time indexes for HeatMapWithTime ----------------------
+    timeIndexes = []
+    
+    #get last period in dataframe
+    for i in range(selected_data['period'].iloc[-1] + 1):
+
+        #Add multiples of 15min to first timestamp based on period value
+        timeIndexes.append((selected_data["time"].iloc[1] + i * timedelta(minutes=15)).strftime("%m/%d/%Y, %H:%M:%S")[:-3])
+
+    #iterate through dataframe -------------------------------------
+    data = [[] for _ in range(len(timeIndexes))]
+    
+    for _, row in selected_data.iterrows():
+        #Checking for None type
+        if not row[data_shown] is None:
+            #Check that data isn't zero or NaN
+            if (not math.isnan(row[data_shown]) and row[data_shown] != 0.0):
+                
+                data[row["period"]].append([row['coordinates'][0],row['coordinates'][1],row[data_shown]])
+              
+    return data, timeIndexes   

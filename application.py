@@ -12,81 +12,50 @@ from folium import plugins
 from folium.plugins import HeatMap
 from folium.plugins import HeatMapWithTime
 import folium 
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+
 from get_data_API import get_data
 
-"""
-Folium in PyQt5
-"""
-class Folium_Map(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle('Wireless Measurement Project - Smart campus')
-        self.window_width, self.window_height = 1600, 1200
-        self.setMinimumSize(self.window_width, self.window_height)
+def main():
 
-        layout = QVBoxLayout()
-        self.setLayout(layout)
+    m = folium.Map([65.059228, 25.465375], zoom_start=16.45)
 
-        m = folium.Map([65.059228, 25.465375], zoom_start=16.45)
-        
-        folium.raster_layers.ImageOverlay(
-                                        image="./img/university_map_sub_2Mb.png",
-                                        name="university map",
-                                        bounds=[[65.062044, 25.462502], [65.056337, 25.471510]],
-                                        opacity=1,
-                                        interactive=False,
-                                        cross_origin=False,
-                                        zindex=1
-                                        ).add_to(m)
-        
-        
-
-        # get data
-        df = get_data()
-        # Min-Max normalize
-        column = "motion"
-        df[column] = (df[column] - df[column].min()) / (df[column].max() - df[column].min())
-        
-        motion_data = df[["coordinates", "motion", "time"]]
-        data = []
-        timestamps = []
-
-        for _, row in motion_data.iterrows():
-            #check for nan in data
-            if np.isnan(row['motion']):
-                continue
-                
-            data.append([row['coordinates'][0],row['coordinates'][1],row['motion']])
-            timestamps.append(row['time'])
-        
-        #HeatMap(data[:500]).add_to(folium.FeatureGroup(name='Heat Map').add_to(m))
-        HeatMapWithTime(data[:500]).add_to(m)
-        folium.LayerControl().add_to(m)
-
-        # save map data to data object
-        data = io.BytesIO()
-        m.save(data, close_file=False)
-
-        webView = QWebEngineView()
-        webView.setHtml(data.getvalue().decode())
-        layout.addWidget(webView)
+    folium.raster_layers.ImageOverlay(
+                                    image="./img/university_map_sub_2Mb.png",
+                                    name="university map",
+                                    bounds=[[65.062044, 25.462502], [65.056337, 25.471510]],
+                                    opacity=1,
+                                    interactive=False,
+                                    cross_origin=False,
+                                    zindex=1
+                                    ).add_to(m)
 
 
-#Create application widget
-app = QApplication(sys.argv)
-app.setStyleSheet('''
-    QWidget {
-        font-size: 35px;
-    }
-''')
 
-#Run code & create window
-MyMap = Folium_Map()
-MyMap.show()
+    # get data
+    df = get_data()
 
-try:
-    sys.exit(app.exec_())
-except SystemExit:
-    print('Closing Window...')
+
+    motion_data = df[["coordinates", "motion", "time"]]
+    data = []
+    timestamps = []
+
+    for _, row in motion_data.iterrows():
+        #check for nan in data
+        if np.isnan(row['motion']):
+            continue
+            
+        data.append([row['coordinates'][0],row['coordinates'][1],row['motion']])
+        timestamps.append(row['time'])
+
+    #HeatMap(data[:500]).add_to(folium.FeatureGroup(name='Heat Map').add_to(m))
+    HeatMapWithTime(data[:500]).add_to(m)
+    folium.LayerControl().add_to(m)
+
+
+    m.save(outfile="index.html")
+
+    webbrowser.open("index.html")
+
+
+if __name__ == "__main__":
+    main()
