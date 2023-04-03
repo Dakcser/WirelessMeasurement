@@ -11,9 +11,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import datetime
+from datetime import datetime, timedelta
 import math
-
 
 
 def get_sensor_locations():
@@ -63,8 +62,12 @@ def get_data():
         'Authorization': f'{apikey.APIKEY}',
     }
     
-    # Set the API endpoint and request 15000 datapoints
-    url = 'https://query-api.rahtiapp.fi/events?limit=15000'
+    # Set the API endpoint and request maximum of 15000 datapoints from the last 12 hours
+    now = datetime.now() - timedelta(days=1)
+    halfDayAgo = now - timedelta(days=1)
+    now = str(now.isoformat())
+    halfDayAgo = str(halfDayAgo.isoformat())
+    url = f'https://query-api.rahtiapp.fi/events?from={halfDayAgo}Z&to={now}Z&limit=33000'
 
     # Send the API request
     response = requests.get(url, headers=headers)
@@ -132,4 +135,4 @@ def data_formating(df, data_shown):
                 
                 data[row["period"]].append([row['coordinates'][0],row['coordinates'][1],row[data_shown]])
               
-    return data, timeIndexes   
+    return data, timeIndexes
