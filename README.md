@@ -21,6 +21,20 @@ HOX! SmartCampus Query API has moved forward from public v0.1.0 to v0.4.0 which 
 
 <br />
 
+## Motion heat map based on sensors
+
+The application fetches measurement data from the Smart Campus API, utilizing latest 12 hour information. The JSON data retrieved from the API is saved as a Pandas DataFrame, with timestamps converted to datetime format for easier processing and analysis.
+
+The application filters out measurements containing NaN, None, or 0.0 values to enhance the quality and accuracy of the visualizations produced. The Folium library's HeatMapWithTime plugin is used to generate dynamic, interactive maps that effectively display the collected data.
+
+A custom layer is added to the map, featuring sensor locations and accompanying HTML popup windows. These windows provide the latest measurement data for each sensor, offering users a comprehensive view of the environment being measured.
+
+![Motion map](img/smartcampus.png)
+
+![Motion map](img/application.png)
+
+
+
 # Conda virtual enviroment 
 
 To install libraries using Conda, follow these steps:
@@ -57,6 +71,4 @@ $ C:\WirelessMeasurement> python application.py
 
 ![Part of the university map with sensor locations, example](img/map.PNG)
 
-# Motion heat map based on sensors
 
-![Motion map](img/heatmap.png)
