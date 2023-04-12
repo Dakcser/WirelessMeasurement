@@ -53,6 +53,7 @@ Note: Conda can also be used to install libraries from non-default channels or t
 <br />
 <br />
 
+<<<<<<< Updated upstream
 # Setup your Api-key
 
 To be able to get data from the APIs, you will need a functioning Api-key.
@@ -70,13 +71,14 @@ To be able to get data from the APIs, you will need a functioning Api-key.
 
 # Run the application
 Run the application with command
+=======
+# Run application
+Run application with command. Running application creates index.html file which use by github pages to display the map.
+>>>>>>> Stashed changes
 
 ```console
 $ C:\WirelessMeasurement> python application.py
 ```
 
-# Sensor locations map
-
-![Part of the university map with sensor locations, example](img/map.PNG)
 
 
