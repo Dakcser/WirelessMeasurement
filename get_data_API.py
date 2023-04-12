@@ -64,10 +64,10 @@ def get_data():
     
     # Set the API endpoint and request maximum of 15000 datapoints from the last 12 hours
     now = datetime.now() - timedelta(days=1)
-    halfDayAgo = now - timedelta(days=1)
+    dayAgo = now - timedelta(days=1)
     now = str(now.isoformat())
-    halfDayAgo = str(halfDayAgo.isoformat())
-    url = f'https://query-api.rahtiapp.fi/events?from={halfDayAgo}Z&to={now}Z&limit=33000'
+    dayAgo = str(dayAgo.isoformat())
+    url = f'https://query-api.rahtiapp.fi/events?from={dayAgo}Z&to={now}Z&limit=33000'
 
     # Send the API request
     print("Fetching data, this might take a while...")
