@@ -27,7 +27,7 @@ A custom layer is added to the map, featuring sensor locations and accompanying 
 
 ![Motion map](img/smartcampus.png)
 
-![Motion map](img/application.png)
+![Motion map](img/application.PNG)
 
 
 
