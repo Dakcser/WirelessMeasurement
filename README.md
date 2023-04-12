@@ -64,7 +64,9 @@ To be able to get data from the APIs, you will need a functioning Api-key.
 2. Go to "Manage keys" and create an Api-key
 3. Create a file named "apikey.py" to your project root folder
 4. Add your Api-key in there in the following format, where 'xxxx-xxx-xx-xxx' is your Api-key:
+	
 	APIKEY = 'Api-key xxxx-xxx-xx-xxx'
+	
 5. All set!
 <br />
 <br />
