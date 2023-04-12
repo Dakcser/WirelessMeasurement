@@ -99,7 +99,6 @@ def data_formating(df, data_shown):
         
 def main():
     # get data
-    print("Fetching data, this might take a while...")
     df = get_data()
     get_unique_sensor_locations(df)
     #Min-Max scale motion data

@@ -27,7 +27,7 @@ def get_sensor_locations():
 
     # Check the response status code
     if response.status_code == 200:
-        print("200")
+        print("Response code: 200")
     else:
         print("Error: API request failed with status code", response.status_code)
 
@@ -70,11 +70,11 @@ def get_data():
     url = f'https://query-api.rahtiapp.fi/events?from={halfDayAgo}Z&to={now}Z&limit=33000'
 
     # Send the API request
+    print("Fetching data, this might take a while...")
     response = requests.get(url, headers=headers)
 
     # Check the response status code
     if response.status_code == 200:
-        # Print the sensor data
         sensor_data = response.iter_lines()
     else:
         print("Error: API request failed with status code", response.status_code)
