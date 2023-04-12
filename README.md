@@ -56,8 +56,21 @@ Set up conda enviroment and install requirements with command 'conda install -r 
 <br />
 <br />
 
-# Run application
-Run application with command
+# Setup your Api-key
+
+To be able to get data from the APIs, you will need a functioning Api-key.
+
+1. Go to: https://query-webapp.rahtiapp.fi/#/ and login or create an account
+2. Go to "Manage keys" and create an Api-key
+3. Create a file named "apikey.py" to your project root folder
+4. Add your Api-key in there in the following format, where 'xxxx-xxx-xx-xxx' is your Api-key:
+	APIKEY = 'Api-key xxxx-xxx-xx-xxx'
+5. All set!
+<br />
+<br />
+
+# Run the application
+Run the application with command
 
 ```console
 $ C:\WirelessMeasurement> python application.py
