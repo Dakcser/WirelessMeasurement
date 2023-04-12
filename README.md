@@ -51,7 +51,7 @@ Note: Conda can also be used to install libraries from non-default channels or t
 
 ## OR install from requirements.txt
 
-Set up conda enviroment and install requirements with command 'conda install -r requirements.txt'
+Set up conda enviroment, activate it and install requirements with command 'conda install --file requirements.txt'
 
 <br />
 <br />
