@@ -37,21 +37,18 @@ To install libraries using Conda, follow these steps:
 
 1. Open your terminal or Anaconda Prompt.
 
-2. Activate your Conda environment using the command conda activate your_env_name. If you don't have an environment set up, you can create one and install the required packages by using command 'conda create --name your_env_name --file requirements.txt'.
+2. Activate your Conda environment using the command conda activate your_env_name. If you don't have an environment set up, you can create one and install the required packages by using command 'conda create -n your_env_name' and then 'conda activate your_env_name'.
 
-3. Use the 'conda install' command to install the desired library. For example, to install NumPy, use the command conda install numpy.
+3. Use 'pip install -r requirements.txt' command to install the desired libraries.
 
-4. Repeat step 3 for any additional libraries you need.
+4. Repeat step 3 for any additional libraries you might need.
 
-5. To check which libraries are installed in your environment, you can use the command 'conda list'.
+5. To check which libraries are installed in your environment, you can use the command 'pip list'.
 
 6. When you are finished working with your environment, you can deactivate it using the command 'conda deactivate'.
 
 Note: Conda can also be used to install libraries from non-default channels or to install specific versions of libraries. You can refer to the Conda documentation for more information on these advanced options.
 
-## OR install from requirements.txt
-
-Set up conda enviroment, activate it and install requirements with command 'conda install --file requirements.txt'
 
 <br />
 <br />
