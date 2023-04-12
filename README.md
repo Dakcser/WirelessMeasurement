@@ -1,12 +1,8 @@
 # Wireless Measurements Project 521168S-3003
 
-Welcome to the repository for the Wireless Measurements course project - a Smart Campus Sensor Measurement Device. The objective of this project is to create a device that monitors the CO2 levels in a work cubicle and alerts the user when it gets too high, ensuring a safe and healthy work environment.
+Welcome to the repository for the Wireless Measurements course project - a Smart Campus Heatmap. The objective of this project is to create a heatmap of the University of Oulu. The map illustrates the amount of movement detected, CO2 levels, temperatures and humidity levels reported by the sensors all around the University of Oulu.
 
-In this repository, you will find all the code and resources necessary to replicate the project and build your own smart campus sensor measurement device. The code includes the firmware for the microcontroller, the communication protocol for transmitting data wirelessly, and the software for displaying the data on a user interface.
-
-We have also included detailed documentation and instructions to guide you through the project, including the hardware and software setup, and how to customize the alert settings.
-
-We hope that this project will serve as a valuable resource for anyone interested in wireless measurements and smart campus sensor technology. Please feel free to contribute to the project or reach out to us if you have any questions or suggestions.
+In this repository, you will find all the code and resources necessary to replicate the project and setup your own map. We hope that this project will serve as a valuable resource for anyone interested in wireless measurements and smart campus sensor technology.
 
 <br />
 
@@ -23,7 +19,7 @@ HOX! SmartCampus Query API has moved forward from public v0.1.0 to v0.4.0 which 
 
 ## Motion heat map based on sensors
 
-The application fetches measurement data from the Smart Campus API, utilizing latest 12 hour information. The JSON data retrieved from the API is saved as a Pandas DataFrame, with timestamps converted to datetime format for easier processing and analysis.
+The application fetches measurement data from the Smart Campus API, utilizing 24 hour of information gathered from the previous day. The JSON data retrieved from the API is saved as a Pandas DataFrame, with timestamps converted to datetime format for easier processing and analysis.
 
 The application filters out measurements containing NaN, None, or 0.0 values to enhance the quality and accuracy of the visualizations produced. The Folium library's HeatMapWithTime plugin is used to generate dynamic, interactive maps that effectively display the collected data.
 
