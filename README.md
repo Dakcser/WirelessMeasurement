@@ -66,6 +66,8 @@ To be able to get data from the APIs, you will need a functioning Api-key.
 	APIKEY = 'Api-key xxxx-xxx-xx-xxx'
 	
 5. All set!
+
+![Example how to save key in file. Key in the picture is just example and not a working one.](img/api_example.PNG)
 <br />
 <br />
 
