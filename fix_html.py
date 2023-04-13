@@ -2,6 +2,12 @@ from bs4 import BeautifulSoup
 
 
 def move_imageOverlay_to_back():
+    """
+    Modifies "index.html" by adding a CSS rule to set the z-index of `.leaflet-image-layer`
+    to -1, pushing the image overlay behind other layers in a leaflet map. The function
+    reads and parses the HTML, updates the `<style>` element, and writes the changes
+    back to the file.
+    """
     
     # Read the HTML file into a string
     with open('index.html', 'r') as file:

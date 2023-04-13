@@ -24,6 +24,14 @@ co2_sensors = []
 audio_sensors = []
 
 class HeatMapWithTimeAdditional(Layer):
+    """
+    A custom Layer class extending the Layer class for creating a time-enabled heatmap.
+
+    This class utilizes a custom template to generate a JavaScript-based heatmap for
+    visualizations, allowing customization of heatmap options such as radius, opacity,
+    scaling, and gradient.
+    """
+
     _template = Template("""
         {% macro script(this, kwargs) %}
             var {{this.get_name()}} = new TDHeatmap({{ this.data }},
@@ -44,6 +52,22 @@ class HeatMapWithTimeAdditional(Layer):
                 min_opacity=0, max_opacity=0.6,
                 scale_radius=False, gradient=None, use_local_extrema=False,
                 overlay=True, control=True, show=True):
+        """
+        Initializes a HeatMapWithTimeAdditional layer with the specified settings.
+
+        Parameters:
+            data (list): Heatmap data.
+            name (str, optional): Layer name.
+            radius (int, optional): Heatmap radius. Default is 15.
+            min_opacity (float, optional): Minimum heatmap opacity. Default is 0.
+            max_opacity (float, optional): Maximum heatmap opacity. Default is 0.6.
+            scale_radius (bool, optional): If True, scales the radius. Default is False.
+            gradient (dict, optional): Color gradient for the heatmap.
+            use_local_extrema (bool, optional): If True, uses local extrema. Default is False.
+            overlay (bool, optional): If True, adds overlay. Default is True.
+            control (bool, optional): If True, adds control. Default is True.
+            show (bool, optional): If True, shows the heatmap. Default is True.
+        """
         super(HeatMapWithTimeAdditional, self).__init__(
             name=name, overlay=overlay, control=control, show=show
         )
@@ -59,9 +83,18 @@ class HeatMapWithTimeAdditional(Layer):
         self.gradient = gradient
     
 def get_unique_sensor_locations(df):
+    """
+    Categorizes unique sensors into CO2 and audio sensors based on the DataFrame. Updates global list audio_sensors & co2_sensors
+    HOX! Don't use global variables, this function need rewrite. 
+
+    Parameters:
+        df (pd.DataFrame): Sensor data DataFrame.
+    """
+    #declare global variables
     global unique_sensor_id_list, co2_sensors, audio_sensors
     unique_sensor_id_list = df["ID"].unique()
 
+    #split data based on sensor type and save to a list
     for sensor in unique_sensor_id_list:
         if (df[df["ID"]==sensor]['co2'].tail(1).values[0]) == None:
             audio_sensors.append(df[df["ID"]==sensor].tail(1).values.tolist())
@@ -101,6 +134,7 @@ def main():
     # get data
     df = get_data()
     get_unique_sensor_locations(df)
+
     #Min-Max scale motion data
     column = "motion"
     df[column] = (df[column] - df[column].min()) / (df[column].max() - df[column].min())
@@ -113,6 +147,8 @@ def main():
     
     #Create the map
     m = folium.Map([65.059228, 25.465375], zoom_start=16.45)
+
+    #Add campus map on top of the map
     folium.raster_layers.ImageOverlay(
                                     image="img/university_map.png",
                                     name="university map",
@@ -123,6 +159,7 @@ def main():
                                     zindex=-1
                                     ).add_to(m)
 
+    ##Create data layers
     #Motion
     HeatMapWithTime(motion_data, index=motion_time, auto_play=True, max_opacity=0.9, name="Motion").add_to(m)
     #CO2
@@ -131,9 +168,10 @@ def main():
     HeatMapWithTimeAdditional(temperature_data, show=False, max_opacity=0.9, name="temperature").add_to(m)
     #Humidity
     HeatMapWithTimeAdditional(humidity_data, show=False, max_opacity=0.9, name="humidity").add_to(m)
-    #Sensor images
+    #Sensor objects
     sensors_cluster = folium.FeatureGroup(name="sensors", show=False).add_to(m)
 
+    #Loop trough audio sensors and add the to the map
     for sensor in audio_sensors:
         custom_icon = folium.CustomIcon("img/sound_icon.png", icon_size=(14, 14))
     
@@ -161,6 +199,7 @@ def main():
         marker = folium.Marker(location=sensor[0][7], icon=custom_icon, popup=popup)
         sensors_cluster.add_child(marker)
     
+    #Loop trough CO2 sensors and add the to the map
     for sensor in co2_sensors:
         custom_icon = folium.CustomIcon("img/co2_icon.png", icon_size=(14, 14))
     
@@ -189,12 +228,17 @@ def main():
         popup = folium.Popup(iframe, min_width=200, max_width=200)
         marker = folium.Marker(location=sensor[0][7], icon=custom_icon, popup=popup)
         sensors_cluster.add_child(marker)
-        
+
+    #Add LayerControl object to map   
     folium.LayerControl().add_to(m)
     
     #Save and display the map
     m.save(outfile="index.html")
+
+    #Move imageOverlay to z-height=-1
     move_imageOverlay_to_back()
+
+    #Display map in Browser
     webbrowser.open("index.html")
     
 if __name__ == "__main__":

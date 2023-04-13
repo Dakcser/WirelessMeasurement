@@ -16,6 +16,13 @@ import math
 
 
 def get_sensor_locations():
+    """
+    Fetches sensor locations from the old Smart Campus API and returns a dictionary
+    with formated new sensor IDs as keys and coordinates as values.
+    
+    Returns:
+        sensor_list (dict): Sensor ID to coordinates mapping.
+    """
     
         # ------ Old API ------------
     # Set the API endpoint and request all devices
@@ -53,6 +60,14 @@ def get_sensor_locations():
     return sensor_list
 
 def get_data():
+    """
+    Fetches sensor data from both Smart Campus APIs and returns a DataFrame containing
+    the data with columns for ID, time, temperature, humidity, light, motion, CO2, 
+    and coordinates.
+    
+    Returns:
+        df (pd.DataFrame): A DataFrame with sensor data.
+    """
     
     sensor_list = get_sensor_locations()
     
@@ -104,6 +119,18 @@ def get_data():
     return df
 
 def data_formating(df, data_shown):
+    """
+    Formats sensor data for heatmap visualization, groups data in 15-minute intervals,
+    and returns heatmap data and time indexes.
+    
+    Parameters:
+        df (pd.DataFrame): Sensor data DataFrame.
+        data_shown (str): Data column name for visualization.
+
+    Returns:
+        data (list): Heatmap data grouped by 15-minute intervals.
+        timeIndexes (list): Time indexes for heatmap visualization.
+    """
     
     print(f"Formating data for {data_shown} map")
     selected_data = df[["coordinates", data_shown, "time"]]
